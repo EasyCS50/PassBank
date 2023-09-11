@@ -1,0 +1,60 @@
+<!-- Using form.html as a layout -->
+<h2>{{ header }}</h2>
+<br>
+<form action="{{ action }}" method="post">
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Webpage Name</label>
+        <input value="{{ name }}" required autocomplete="off" autofocus class="form-control mx-auto w-50" id="name" name="name" placeholder="Webpage name" type="text">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Webpage URL (optional)</label>
+        <input value="{{ url }}" autocomplete="off" class="form-control mx-auto w-50" id="url" name="url" placeholder="Webpage URL" type="url">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Login</label>
+        <input value="{{ login }}" required autocomplete="off" class="form-control mx-auto w-50" id="login" name="login" placeholder="Login" type="text">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Password</label>
+        <input value="{{ password }}" required autocomplete="off" class="form-control mx-auto w-50" id="password" name="password" placeholder="Password" type="password">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Notes (optional)</label>
+        <textarea autocomplete="off" class="form-control mx-auto w-50" rows="3" id="notes" name="notes" placeholder="Notes" type="text">{{ notes }}</textarea>
+    </div>
+    <input name="id" type="hidden" value="{{ id }}">
+    <button name="edit" class="mb-3 btn btn-primary" style="margin: 10px;" type="submit">{{ button }}</button>
+    <button id="showButton" class="mb-3 btn btn-secondary" style="margin: 10px;" type="button">Show Password</button>
+    {% if delete %}
+        <button id="deleteButton" name="delete" class="mb-3 btn btn-danger show" style="margin: 10px;" type="submit">Delete</button>
+    {% endif %}
+
+    <p>Need a secure password? <a href="/generate">Click to generate a safe password!</a></p>
+
+    <script>
+        // Get button
+        const deleteButton = document.getElementById("deleteButton");
+        const showButton = document.getElementById("showButton");
+        const password = document.getElementById("password");
+    
+        showButton.addEventListener("click", function(event) {
+            if (password.type === "password") {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+        });
+
+        deleteButton.addEventListener("click", function(event) {
+            // Confirm if user wants to delete
+            var name = document.getElementById("name").value;
+            const confirmDelete = confirm("Are you sure you want to delete your " + name + " Login Details?");
+            
+            // If the user doesnt want to, prevent the post
+            if (!confirmDelete) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+</form>

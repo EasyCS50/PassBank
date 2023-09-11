@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Generate
+{% endblock %}
+
+{% block main %}
+    <h2>Password Generator</h2>
+    <br>
+    <form action="/generate" method="post" id="generateForm">
+        <div class="mb-3">
+            <input value="{{ n }}" required autocomplete="off" autofocus class="form-control mx-auto w-auto" id="length" name="length" placeholder="Password Length" type="number" min="1">
+        </div>
+        <div class="mb-3">
+            <input value="{{ password }}" autocomplete="off" autofocus placeholder="Click 'New Password'" class="form-control mx-auto w-auto" id="password" name="password" type="text">
+        </div>
+        <button onclick="copyFunction()" id="copyButton" class="btn btn-primary" style="margin: 10px;" type="submit">Copy Password</button>
+        <button class="btn btn-secondary" style="margin: 10px;" type="submit">New Password</button>
+    </form>
+
+    <script>
+        function copyFunction() {
+            // Prevent the copy button from posting
+            event.preventDefault();
+
+            // Get the text field
+            var copyText = document.getElementById("password");
+
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+            
+            // Prevent the alert from preventing password to be copied
+            setTimeout(() => {
+                alert("Copied to Clipboard");
+            }, 100);
+        }
+    </script>
+{% endblock %}

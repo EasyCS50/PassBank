@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block main %}
+    {% set action = "/edited" %}
+    {% set header = "Edit Login Details" %}
+    {% set name = portfolio.name %}
+    {% set url = portfolio.url %}
+    {% set login = portfolio.login %}
+    {% set password = portfolio.password %}
+    {% set notes = portfolio.notes %}
+    {% set id = portfolio.id %}
+    {% set button = "Save Changes" %}
+    {% set delete = True %}
+    
+    {% include "form.html" %}
+{% endblock %}

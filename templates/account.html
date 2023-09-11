@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Account
+{% endblock %}
+
+{% block main %}
+    <h2>My Account</h2>
+    <br>
+    <form action="/account" method="post">
+        <div class="container-fluid mb-3 d-flex justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Username</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ user.username }}</p>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Passwords Saved</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ passwords }}</p>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Last Updated</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ date }}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <h2>
+                Update Details <h6>Only Change What You Wish</h6>
+            </h2>
+            <br>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">New Username</label>
+                <input required value="{{ user.username }}" required autocomplete="off" class="form-control mx-auto w-50" id="newusername" name="newusername" type="text">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">New Password</label>
+                <input required autocomplete="off" class="form-control mx-auto w-50 password" id="newpassword" name="newpassword" placeholder="New Password" type="password">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Confirm New Password</label>
+                <input required autocomplete="off" class="form-control mx-auto w-50 password" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" type="password">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Current Password</label>
+                <input required autocomplete="off" class="form-control mx-auto w-50 password" id="oldpassword" name="oldpassword" placeholder="Current Password" type="password">
+            </div>
+            <button class="mb-3 btn btn-primary" style="margin: 10px;" name="update" type="submit">Save Changes</button>
+            <button id="showButton" class="mb-3 btn btn-secondary" style="margin: 10px;" type="button">Show Passwords</button>
+            <button id="deleteButton" class="mb-3 btn btn-danger" style="margin: 10px;" name="delete" type="submit" formnovalidate>Delete Account</button>
+            <script>
+                // Toggle password visibility and delete button popup
+                const deleteButton = document.getElementById("deleteButton");
+                const showButton = document.getElementById("showButton");
+                const password = document.getElementsByClassName("password");
+            
+                showButton.addEventListener("click", function(event) {
+                    for (let i = 0; i < password.length; i++) {
+                        if (password[i].type === "password") {
+                            password[i].type = "text";
+                        } else {
+                            password[i].type = "password";
+                        }
+                    }
+                });
+        
+                deleteButton.addEventListener("click", function(event) {
+                    // Confirm if user wants to delete
+                    const confirmDelete = confirm("Are you sure you want to delete your account? This action is IRREVERSIBLE!");
+                    
+                    // If the user doesnt want to, prevent the post
+                    if (!confirmDelete) {
+                        event.preventDefault();
+                    }
+                });
+            </script>
+        </div>
+    </form>
+{% endblock %}

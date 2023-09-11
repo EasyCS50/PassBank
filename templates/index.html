@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% set search = True %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <h2>My PassBank</h2>
+    <br>
+    <div class="section" style="overflow-x:auto;">
+        <!-- If the user has passwords to showcase -->
+        {% if portfolio | count > 0 %}
+            <table class="container table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>URL</th>
+                        <th>Login</th>
+                        <th>Password</th>
+                        <th>Notes</th>
+                        <th>Last Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in portfolio %}
+                        <tr>
+                            <!-- Displaying cells 2-7 of the users portfolio -->
+                            {% for data in i[2:8] %}
+                                <!-- Check if it's the password cell -->
+                                {% if loop.index0 == 3 %}
+                                    <td id="{{ i[0] }}" class="passwordRow hidetext">{{ data }}</td>
+                                {% else %}
+                                    <td>{{ data }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td>
+                                <form action="/edit" method="post">
+                                    <input name="id" type="hidden" value="{{ i[0] }}">
+                                    <input id="{{ i[0] }}" class="btn btn-primary show" type="submit" value="Show">
+                                    <input class="btn btn-danger" type="submit" value="Edit">
+                                    <script>
+                                        let selectedRow = document.querySelector(".passwordRow");
+
+                                        // Append the code until DOM loads in
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                            // Obtain the show buttons
+                                            const showButtons = document.querySelectorAll(".show");
+                                            // Loop through each show button
+                                            for (let i = 0; i < showButtons.length; i++) {
+
+                                                // Event listener for each button
+                                                showButtons[i].addEventListener("click", () => {
+                                                    // Prevent post submission
+                                                    event.preventDefault();
+                                                    
+                                                    // Obtain password cell
+                                                    let row = event.target.closest("tr");
+                                                    let pressButton = row.querySelector(".show");
+                                                    let passwordCell = row.querySelector(".passwordRow");
+                                                    
+                                                    // Show or hide password
+                                                    if (passwordCell.classList.contains("hidetext")) {
+                                                        passwordCell.classList.remove("hidetext");
+                                                    } else {
+                                                        passwordCell.classList.add("hidetext");
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <!-- If the user doesn't have passwords to showcase -->
+        {% else %}
+            <h5>There's nothing here, yet.</h5>
+            <a href="/add" type="button" class="btn btn-outline-info" style="margin: 10px;">Begin adding accounts</a>
+            Or
+            <a href="/" type="button" class="btn btn-outline-primary" style="margin: 10px;">Refresh</a>
+        {% endif %}
+    </div>
+{% endblock %}

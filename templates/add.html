@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add
+{% endblock %}
+
+{% block main %}
+    {% set action = "/add" %}
+    {% set header = "Add Login Details" %}
+    {% set name = "" %}
+    {% set url = "" %}
+    {% set login = "" %}
+    {% set password = "" %}
+    {% set notes = "" %}
+    {% set id = "" %}
+    {% set button = "Add" %}
+
+    {% include "form.html" %}
+{% endblock %}
